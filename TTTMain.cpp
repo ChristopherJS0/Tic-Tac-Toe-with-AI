@@ -19,7 +19,7 @@ int Score(TicTacToe& Board) {
 }
 
 vector<Triple> EmptySpots(TicTacToe& Board) {
-	// Function to collect all of a states child states.
+	// Function to collect all of a state's child states.
 	vector<Triple> OpenSpots;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
