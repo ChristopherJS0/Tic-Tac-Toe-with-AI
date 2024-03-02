@@ -1,1 +1,1 @@
-#Tic-Tac-Toe w/ Alpha Beta Pruning AI
+<h1>Tic-Tac-Toe w/ Alpha Beta Pruning AI</h1>
