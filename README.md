@@ -19,3 +19,8 @@ You can try all options to start and end from but you'll start to notice that th
   <li>TTTBoard: A vector holding vectors holding char elements to represent a Tic Tac Toe board.</li>
   <li>GameOver: A boolean to represent if the game is over.</li>
 </ul>
+
+<b>Triple</b>
+<p>A struct containing 3 integers. The row index, the column index, and the score of the game which is either 0 or 1. In hindsight, I would've chosen a better name for this struct.</p>
+
+<h2>Min-Max Algorithm and Alpha Beta Pruning</h2>
