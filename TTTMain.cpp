@@ -4,12 +4,12 @@
 using namespace std;
 
 //	Struct to store Row, Column AND Score of TTT Board.
-struct Triple {
+struct Play {
 	int Row, Column, Score;
 };
 
 // Declare first so MAX can use this function.
-Triple MIN(TicTacToe Board, pair<int, int> LastPlay, int Alpha, int Beta);
+Play MIN(TicTacToe Board, pair<int, int> LastPlay, int Alpha, int Beta);
 
 int Score(TicTacToe& Board) {
 	// Function to return score, the AI will play X.
@@ -18,9 +18,9 @@ int Score(TicTacToe& Board) {
 	else { return 0; }
 }
 
-vector<Triple> EmptySpots(TicTacToe& Board) {
+vector<Play> EmptySpots(TicTacToe& Board) {
 	// Function to collect all of a states child states.
-	vector<Triple> OpenSpots;
+	vector<Play> OpenSpots;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			if (Board.TTTBoard[i][j] == ' ') { OpenSpots.push_back({i,j,999}); } // 999 will be the sentinel for a no value score.
@@ -29,7 +29,7 @@ vector<Triple> EmptySpots(TicTacToe& Board) {
 	return OpenSpots;
 }
 
-Triple MAX(TicTacToe Board, pair<int, int> LastPlay, int Alpha, int Beta) {
+Play MAX(TicTacToe Board, pair<int, int> LastPlay, int Alpha, int Beta) {
 	// Function to return the MAX pair to play.
 
 	//	Checks if the current state is terminal, then returns a state (pair) with the valid score.
@@ -41,13 +41,13 @@ Triple MAX(TicTacToe Board, pair<int, int> LastPlay, int Alpha, int Beta) {
 	//	ValidPlay is the struct that will be returned, contains Row, Column, Score.
 	//	ChildStates are next states of current state, EmptySpots() returns a vector of next plays using board.
 	int Value = -100;
-	Triple ValidPlay = { LastPlay.first, LastPlay.second, 999 }; // 999 as score is a sentinel to NOT use this score.
-	vector<Triple>ChildStates = EmptySpots(Board);
+	Play ValidPlay = { LastPlay.first, LastPlay.second, 999 }; // 999 as score is a sentinel to NOT use this score.
+	vector<Play>ChildStates = EmptySpots(Board);
 
 	for (auto& nextState : ChildStates) {
 
 		pair<int, int> NextPlay = make_pair(nextState.Row, nextState.Column);
-		Triple nextStateChild = MIN(Board, NextPlay, Alpha, Beta);
+		Play nextStateChild = MIN(Board, NextPlay, Alpha, Beta);
 
 		if (nextStateChild.Score != 999 && nextStateChild.Score > Value){
 			Value = nextStateChild.Score;
@@ -67,7 +67,7 @@ Triple MAX(TicTacToe Board, pair<int, int> LastPlay, int Alpha, int Beta) {
 	return ValidPlay; 
 }
 
-Triple MIN(TicTacToe Board, pair<int, int> LastPlay, int Alpha, int Beta) {
+Play MIN(TicTacToe Board, pair<int, int> LastPlay, int Alpha, int Beta) {
 
 	// Inserting the last made play to evaluate. First = Row, Second = Column.
 	Board.Insert(LastPlay.first, LastPlay.second, 'X');
@@ -81,13 +81,13 @@ Triple MIN(TicTacToe Board, pair<int, int> LastPlay, int Alpha, int Beta) {
 	//	ValidPlay is the struct that will be returned, contains Row, Column, Score.
 	//	ChildStates are next states of current state, EmptySpots() returns a vector of next plays using board.
 	int Value = 100;
-	Triple ValidPlay = { LastPlay.first, LastPlay.second, 999 }; // 999 as score is a sentinel to NOT use this score.
-	vector<Triple>ChildStates = EmptySpots(Board);
+	Play ValidPlay = { LastPlay.first, LastPlay.second, 999 }; // 999 as score is a sentinel to NOT use this score.
+	vector<Play>ChildStates = EmptySpots(Board);
 
 	for (auto& nextState : ChildStates) {
 
 		pair<int, int> NextPlay = make_pair(nextState.Row, nextState.Column);
-		Triple nextStateChild = MAX(Board, NextPlay, Alpha, Beta);
+		Play nextStateChild = MAX(Board, NextPlay, Alpha, Beta);
 
 		if (nextStateChild.Score != 999 && nextStateChild.Score < Value) {
 			Value = nextStateChild.Score;
@@ -125,7 +125,7 @@ int main() {
 		if (Game1.TerminalState() != '-') { break; }
 
 		// AI will make the X plays, 
-		Triple AIplayer = MAX(Game1, make_pair(Row, Col), -100, 100);
+		Play AIplayer = MAX(Game1, make_pair(Row, Col), -100, 100);
 		Game1.Insert(AIplayer.Row, AIplayer.Column, 'X');
 		Game1.PrintBoard();
 	}
