@@ -5,6 +5,7 @@ using namespace std;
 struct TicTacToe {
 	TicTacToe();
 
+
 	void Insert(int Row, int Col, char Player); // TESTED
 
 	void PrintBoard();	// TESTED
